@@ -13,4 +13,3 @@ project (
 set(CMAKE_CXX_STANDARD 20)
 # Include sub-projects.
 add_subdirectory ("raytracing-in-a-weekend")
-add_executable("app" "raytracing-in-a-weekend/program.cpp")
