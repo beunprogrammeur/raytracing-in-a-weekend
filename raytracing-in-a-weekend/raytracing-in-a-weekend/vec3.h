@@ -44,6 +44,8 @@ public:
 	double dot();
 	vec3 cross(const vec3& other);
 	vec3 unit();
+
+	static vec3 zero() { return vec3(0, 0, 0); }
 };
 
 // alias
