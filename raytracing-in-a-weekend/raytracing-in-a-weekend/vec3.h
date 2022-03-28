@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include "random.h"
 
 using std::sqrt;
 
@@ -46,6 +47,13 @@ public:
 	vec3 unit();
 
 	static vec3 zero() { return vec3(0, 0, 0); }
+	static vec3 random() { return vec3(random_double(), random_double(), random_double()); }
+	static vec3 random(double min, double max) { return vec3(random_double(min, max), random_double(min, max), random_double(min, max)); }
+	static vec3 random_in_unit_sphere() {
+		vec3 out = vec3::zero();
+		while ((out = vec3::random(-1, 1)).length_squared() >= 1);
+		return out;
+	}
 };
 
 // alias

@@ -9,9 +9,9 @@ void write_color(std::ostream& out, const color& pixel_color, int samples_per_pi
 	auto g = pixel_color.y();
 	auto b = pixel_color.z();
 
-	r *= scale;
-	g *= scale;
-	b *= scale;
+	r = sqrt(scale * r);
+	g = sqrt(scale * g);
+	b = sqrt(scale * b);
 
 	r = clamp(r, 0, 0.999);
 	g = clamp(g, 0, 0.999);

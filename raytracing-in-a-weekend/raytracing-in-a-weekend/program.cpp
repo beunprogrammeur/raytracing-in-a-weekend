@@ -5,21 +5,23 @@
 #include "sphere.h"
 #include "color.h"
 #include "camera.h"
-#include <random>
+#include "random.h"
+#include <filesystem>
+#include <fstream>
+#include "io.h"
 using namespace std;
 
 
-inline double random_double() {
-	static std::uniform_real_distribution<double> distribution(0.0, 1.0);
-	static std::mt19937 generator;
-	return distribution(generator);
-}
 
-color ray_color(const ray& r, const hittable& world) {
+
+color ray_color(const ray& r, const hittable& world, int depth) {
 	hit_record rec;
 	
-	if (world.hit(r, 0, infinity, rec)) {
-		return 0.5 * (rec.normal + color(1, 1, 1));
+	if (depth <= 0) return color::zero();
+
+	if (world.hit(r, 0.001, infinity, rec)) {
+		point3 target = rec.p + rec.normal + vec3::random_in_unit_sphere().unit();
+		return 0.5 * ray_color(ray(rec.p, target - rec.p), world, depth - 1);
 	}
 
 	vec3 unit_direction = r.direction().unit();
@@ -29,11 +31,28 @@ color ray_color(const ray& r, const hittable& world) {
 
 int main()
 {
+	// io
+	const std::string output_folder = ".\\output";
+	const std::string file = "image";
+	const std::string extension = "ppm";
+
+	std::filesystem::create_directory(std::filesystem::path(output_folder));
+
+	auto path = generate_file_path(output_folder, file, extension);
+	std::cout << "generated path: " << path << std::endl;
+	std::ofstream output_file;
+	output_file.open(path);
+	if (!output_file.is_open()) {
+		std::cerr << "failed to open file: " << path << std::endl;
+		return 1;
+	}
+
 	// image
 	constexpr auto aspect_ratio = 16.0 / 9.0;
 	constexpr long image_width = 400;
 	constexpr long image_height = static_cast<long>(image_width / aspect_ratio);
 	constexpr long samples_per_pixel = 100;
+	constexpr long max_depth = 50;
 
 	// world
 	hittable_list world;
@@ -48,7 +67,7 @@ int main()
 
 	// render
 
-	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+	output_file << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
 	for (int j = image_height - 1; j >= 0; j--)
 	{
@@ -63,13 +82,14 @@ int main()
 				auto u = (i + random_double()) / (image_width - 1);
 				auto v = (j + random_double()) / (image_height - 1);
 				ray r = cam.get_ray(u, v);
-				pixel += ray_color(r, world);
+				pixel += ray_color(r, world, max_depth);
 			}	
-			write_color(std::cout, pixel, samples_per_pixel);
+			write_color(output_file, pixel, samples_per_pixel);
 		}
 	}
 
 	std::cerr << "done." << std::endl;
-
+	output_file.close();
+	system(path.c_str());
 	return 0;
 }
