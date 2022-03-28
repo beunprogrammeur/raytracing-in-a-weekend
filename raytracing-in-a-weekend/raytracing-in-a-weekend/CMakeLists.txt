@@ -11,6 +11,6 @@ add_executable (raytracing-in-a-weekend
 	"vec3.h" 
 	"color.h" 
 	"ray.h"
-	)
+	 "hittable.h" "sphere.h" "sphere.cpp" "hittable_list.h" "hittable_list.cpp" "program.h")
 
 # TODO: Add tests and install targets if needed.

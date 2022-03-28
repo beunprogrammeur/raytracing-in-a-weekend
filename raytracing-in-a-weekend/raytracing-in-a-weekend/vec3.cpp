@@ -17,6 +17,10 @@ double vec3::dot(const vec3& other) {
 	     + e[2] * other.e[2];
 }
 
+double vec3::dot() {
+	return dot(*this);
+}
+
 double vec3::length() const {
 	return sqrt(length_squared());
 }

@@ -41,6 +41,7 @@ public:
 	double length() const;
 	double length_squared() const;
 	double dot(const vec3& other);
+	double dot();
 	vec3 cross(const vec3& other);
 	vec3 unit();
 };
