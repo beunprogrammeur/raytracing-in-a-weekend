@@ -11,6 +11,6 @@ private:
 	vec3 m_vertical;
 
 public:
-	camera();
+	camera(point3 look_from, point3 look_at, vec3 vup, double vfov, double aspect_ratio);
 	ray get_ray(double u, double v) const;
 };

@@ -54,7 +54,7 @@ public:
 	vec3 cross(const vec3& other);
 	vec3 unit();
 	vec3 reflect(const vec3& n) const;
-
+	vec3 refract(const vec3& n, double etai_over_etat) const;
 
 	static vec3 zero() { return vec3(0, 0, 0); }
 	static vec3 random() { return vec3(random_double(), random_double(), random_double()); }

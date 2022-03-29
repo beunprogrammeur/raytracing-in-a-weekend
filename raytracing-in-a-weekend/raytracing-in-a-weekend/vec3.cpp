@@ -32,3 +32,10 @@ double vec3::length_squared() const {
 vec3 vec3::reflect(const vec3& n) const { 
 	return (*this) - (2 * dot(n) * n); 
 }
+
+vec3 vec3::refract(const vec3& n, double etai_over_etat) const {
+	auto cos_theta = fmin((-*this).dot(n), 1.0);
+	vec3 r_out_perp = etai_over_etat * (*this + cos_theta * n);
+	vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
+	return r_out_perp + r_out_parallel;
+}
