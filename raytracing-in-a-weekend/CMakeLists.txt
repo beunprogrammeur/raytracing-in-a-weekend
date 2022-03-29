@@ -12,5 +12,6 @@ project (
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS "/Ox")
+
 # Include sub-projects.
 add_subdirectory ("raytracing-in-a-weekend")

@@ -64,6 +64,11 @@ public:
 		while ((out = vec3::random(-1, 1)).length_squared() >= 1);
 		return out;
 	}
+	static vec3 random_in_unit_disk() {
+		vec3 out;
+		while ((out = vec3(random_double(-1.0, 1.0), random_double(-1.0, 1.0), 0.0)).length_squared() >= 1.0);
+		return out;
+	}
 };
 
 // alias
