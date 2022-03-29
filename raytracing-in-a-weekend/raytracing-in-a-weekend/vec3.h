@@ -39,12 +39,22 @@ public:
 		return *this *= 1 / t;
 	}
 
+	bool near_zero() const {
+		constexpr auto s = 1e-8;
+		return
+			(fabs(e[0]) < s) &&
+			(fabs(e[1]) < s) &&
+			(fabs(e[2]) < s);
+	}
+
 	double length() const;
 	double length_squared() const;
-	double dot(const vec3& other);
-	double dot();
+	double dot(const vec3& other) const;
+	double dot() const;
 	vec3 cross(const vec3& other);
 	vec3 unit();
+	vec3 reflect(const vec3& n) const;
+
 
 	static vec3 zero() { return vec3(0, 0, 0); }
 	static vec3 random() { return vec3(random_double(), random_double(), random_double()); }
